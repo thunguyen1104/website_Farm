@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Liên Hệ – NaFarm</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
+  <link rel="stylesheet" href="../css/style.css"/>
+  <style>
+    .contact-hero{min-height:48vh;display:flex;align-items:center;justify-content:center;text-align:center;padding:calc(var(--nav-h)+60px) 28px 80px;background:linear-gradient(135deg,var(--brown-50) 0%,var(--off-white) 50%,var(--green-50) 100%)}
+    .contact-hero h1{font-family:var(--font-display);font-size:clamp(2rem,5vw,3.5rem);color:var(--text-primary);margin-bottom:14px}
+    .contact-layout{display:grid;grid-template-columns:1.2fr 1fr;gap:48px;max-width:980px;margin:0 auto}
+    .c-form-card{background:var(--surface);border-radius:var(--r-xl);padding:36px;box-shadow:var(--shadow)}
+    .c-form-card h2{font-family:var(--font-display);font-size:1.5rem;margin-bottom:20px}
+    .form-row{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+    .info-list{display:flex;flex-direction:column;gap:16px}
+    .info-item{background:var(--surface);border-radius:var(--r-lg);padding:18px 20px;display:flex;align-items:flex-start;gap:14px;border:1.5px solid var(--border);transition:all var(--t-2)}
+    .info-item:hover{transform:translateX(5px);border-color:var(--primary);background:var(--green-50)}
+    .ii-icon{font-size:1.8rem;flex-shrink:0}
+    .ii-lbl{font-size:.7rem;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--text-muted);margin-bottom:3px}
+    .ii-val{font-weight:700;font-size:.94rem}
+    .ii-note{font-size:.75rem;color:var(--text-muted);margin-top:2px}
+    @media(max-width:720px){.contact-layout,.form-row{grid-template-columns:1fr}}
+  </style>
+</head>
+<body>
+<nav class="nav"><div class="nav-inner">
+  <a href="../index.html" class="logo"><div class="logo-mark">🌿</div><div class="logo-text"><span class="brand">NaFarm</span><span class="tagline">Từ Nông Trại Đến Bàn Ăn</span></div></a>
+  <ul class="nav-links">
+    <li><a href="../index.html">Trang Chủ</a></li>
+    <li><a href="../index.html#products">Sản Phẩm</a></li>
+    <li><a href="about.html">Về NaFarm</a></li>
+    <li><a href="contact.html" class="active">Liên Hệ</a></li>
+  </ul>
+  <div class="nav-actions"><a href="../index.html#products" class="btn-login">Mua Ngay</a></div>
+</div></nav>
+
+<section class="contact-hero">
+  <div>
+    <div class="sec-eyebrow" style="display:block;margin-bottom:10px">Chúng Tôi Luôn Ở Đây</div>
+    <h1>Liên Hệ NaFarm</h1>
+    <p style="color:var(--text-secondary);max-width:520px;margin:0 auto;font-size:1.05rem">Hỏi về sản phẩm, đặt hàng số lượng lớn hay cần tư vấn dinh dưỡng — chúng tôi luôn sẵn sàng!</p>
+  </div>
+</section>
+
+<section class="section" style="background:var(--bg)">
+  <div class="container">
+    <div class="contact-layout">
+      <div class="c-form-card reveal">
+        <h2>📨 Gửi Tin Nhắn</h2>
+        <form id="contact-form">
+          <div class="form-row">
+            <div class="f-group"><label class="f-label">Họ Tên</label><input type="text" class="f-input" placeholder="Nguyễn Văn A" required/></div>
+            <div class="f-group"><label class="f-label">Số Điện Thoại</label><input type="tel" class="f-input" placeholder="0938 xxx xxx"/></div>
+          </div>
+          <div class="f-group"><label class="f-label">Email</label><input type="email" class="f-input" placeholder="email@example.com" required/></div>
+          <div class="f-group">
+            <label class="f-label">Chủ Đề</label>
+            <select class="f-input">
+              <option>Hỏi về sản phẩm / chất lượng</option>
+              <option>Đặt hàng số lượng lớn</option>
+              <option>Giỏ quà doanh nghiệp Tết</option>
+              <option>Đăng ký gói Subscription</option>
+              <option>Hợp tác / Đại lý</option>
+              <option>Phản hồi / Khiếu nại</option>
+            </select>
+          </div>
+          <div class="f-group"><label class="f-label">Tin Nhắn</label><textarea class="f-input" style="resize:vertical;min-height:110px" placeholder="Nội dung tin nhắn…"></textarea></div>
+          <button type="submit" class="btn btn-primary btn-block btn-lg">📨 Gửi Tin Nhắn</button>
+        </form>
+      </div>
+
+      <div class="info-list">
+        <div class="info-item reveal"><div class="ii-icon">📞</div><div><div class="ii-lbl">Điện Thoại</div><div class="ii-val">0938.828.553</div><div class="ii-note">Hỗ trợ 8:00 – 21:00 mỗi ngày</div></div></div>
+        <div class="info-item reveal"><div class="ii-icon">✉️</div><div><div class="ii-lbl">Email</div><div class="ii-val">info@nafarm.vn</div><div class="ii-note">Phản hồi trong vòng 24 giờ</div></div></div>
+        <div class="info-item reveal"><div class="ii-icon">📍</div><div><div class="ii-lbl">Địa Chỉ</div><div class="ii-val">TP. Hồ Chí Minh</div><div class="ii-note">Giao hàng toàn quốc 63 tỉnh thành</div></div></div>
+        <div class="info-item reveal"><div class="ii-icon">⏰</div><div><div class="ii-lbl">Giờ Làm Việc</div><div class="ii-val">Thứ 2 – Chủ Nhật</div><div class="ii-note">8:00 sáng – 9:00 tối liên tục</div></div></div>
+        <div class="info-item reveal"><div class="ii-icon">💳</div><div><div class="ii-lbl">Thanh Toán</div><div class="ii-val">VNPay · MoMo · COD · ATM</div><div class="ii-note">Bảo mật chuẩn PCI DSS</div></div></div>
+        <div class="info-item reveal"><div class="ii-icon">🚚</div><div><div class="ii-lbl">Vận Chuyển</div><div class="ii-val">AhaMove · GHTK · GHN</div><div class="ii-note">Hỏa tốc 4h nội thành TP.HCM</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-bottom" style="max-width:var(--max-w);margin:0 auto;padding:22px 28px;border-top:none">
+    <span style="color:rgba(255,255,255,.3)">© 2025 NaFarm. All rights reserved.</span>
+    <a href="../index.html" class="btn-login">← Về Trang Chủ</a>
+  </div>
+</footer>
+<div class="toast-tray"></div>
+<script>
+document.addEventListener('DOMContentLoaded',()=>{
+  const nav=document.querySelector('.nav');
+  window.addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>20));
+  document.querySelectorAll('.reveal').forEach(el=>new IntersectionObserver(([e])=>{if(e.isIntersecting)el.classList.add('on')},{threshold:.1}).observe(el));
+  document.getElementById('contact-form').addEventListener('submit',e=>{
+    e.preventDefault();
+    const t=document.createElement('div');t.className='toast';
+    t.textContent='✅ Đã gửi! Chúng tôi sẽ phản hồi trong 24h.';
+    document.querySelector('.toast-tray').appendChild(t);
+    setTimeout(()=>t.remove(),3500); e.target.reset();
+  });
+});
+</script>
+</body>
+</html>

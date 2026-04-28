@@ -1,0 +1,14 @@
+<nav class="nav">
+  <!-- Giữ nguyên HTML nav từ file index.html, 
+       nhưng thay các đoạn liên quan đến user bằng logic EJS -->
+  <div class="nav-inner">
+    <a href="/" class="logo">...</a>
+    <!-- phần hiển thị tên user -->
+    <% if (user) { %>
+      <span>Xin chào <%= user.name %></span>
+      <a href="/auth/logout">Đăng xuất</a>
+    <% } else { %>
+      <button class="btn-login" data-open-auth>Đăng Nhập</button>
+    <% } %>
+  </div>
+</nav>

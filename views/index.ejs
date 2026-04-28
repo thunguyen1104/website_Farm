@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>NaFarm – Đặc Sản Việt Nam | Từ Nông Trại Đến Bàn Ăn</title>
+  <meta name="description" content="NaFarm – Thương mại điện tử đặc sản Việt Nam 100% sạch. Trái cây sấy, hạt dinh dưỡng, trái tươi Đà Lạt. Giao hàng toàn quốc, QR truy xuất nguồn gốc."/>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════
+     NAVIGATION (Bước 2 – Module Khách Hàng: Auth, Search)
+═══════════════════════════════════════════════════ -->
+<nav class="nav" id="nav">
+  <div class="nav-inner">
+
+    <a href="/" class="logo">
+      <div class="logo-mark">🌿</div>
+      <div class="logo-text">
+        <span class="brand">NaFarm</span>
+        <span class="tagline">Từ Nông Trại Đến Bàn Ăn</span>
+      </div>
+    </a>
+
+    <!-- Search (Bước 2 – Tìm kiếm theo tên, danh mục, nguồn gốc) -->
+    <div class="nav-search">
+      <span class="nav-search-icon">🔍</span>
+      <input type="text" placeholder="Tìm xoài sấy, hạt điều, Đà Lạt…"/>
+      <div class="search-drop"></div>
+    </div>
+
+    <ul class="nav-links">
+      <li><a href="#home" class="active">Trang Chủ</a></li>
+      <li><a href="#categories">Danh Mục</a></li>
+      <li><a href="#products">Sản Phẩm</a></li>
+      <li><a href="#subscriptions">Gói Định Kỳ</a></li>
+      <li><a href="/pages/about">Về NaFarm</a></li>
+    </ul>
+
+    <div class="nav-actions">
+      <!-- Guest state -->
+      <div id="nav-guest" style="display:flex;align-items:center;gap:8px">
+        <button class="btn-login" data-open-auth>Đăng Nhập</button>
+      </div>
+
+      <!-- Logged-in state (Bước 2 – User Module) -->
+      <div id="nav-user" style="display:none;align-items:center;gap:8px">
+        <div class="user-wrap">
+          <button class="icon-btn" title="Tài khoản">
+            👤<span class="badge-dot" style="background:var(--primary);font-size:.55rem">✓</span>
+          </button>
+          <div class="user-drop">
+            <div class="user-drop-head">
+              <div class="user-drop-name">Tên Khách Hàng</div>
+              <div class="user-drop-email">email@example.com</div>
+            </div>
+            <button class="udrop-item" id="btn-orders">📦 Đơn Hàng Của Tôi</button>
+            <button class="udrop-item">❤️ Sản Phẩm Yêu Thích</button>
+            <button class="udrop-item">🔄 Gói Subscription</button>
+            <button class="udrop-item">⚙️ Cài Đặt Tài Khoản</button>
+            <div class="drop-sep"></div>
+            <button class="udrop-item red" id="btn-logout">🚪 Đăng Xuất</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Cart (Bước 2 – Giỏ hàng) -->
+      <button class="icon-btn btn-open-cart" title="Giỏ hàng">
+        🛒<span class="badge-dot" data-role="cart">0</span>
+      </button>
+
+      <button class="hamburger" aria-label="Menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div class="mob-menu">
+  <button class="mob-x">✕</button>
+  <a href="#home">Trang Chủ</a>
+  <a href="/pages/categories">Danh Mục</a>
+  <a href="/pages/products">Sản Phẩm</a>
+  <a href="/pages/subscriptions">Gói Định Kỳ</a>
+  <a href="/pages/about">Về NaFarm</a>
+  <a href="/pages/contact">Liên Hệ</a>
+  <button class="btn btn-primary" data-open-auth style="margin-top:8px">Đăng Nhập / Đăng Ký</button>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     HERO  (Bước 1 – "Từ nông trại đến bàn ăn" storytelling)
+═══════════════════════════════════════════════════ -->
+<section class="hero" id="home">
+  <div class="hero-orb hero-orb-1"></div>
+  <div class="hero-orb hero-orb-2"></div>
+  <div class="hero-orb hero-orb-3"></div>
+
+  <div class="hero-grid">
+    <!-- Left -->
+    <div>
+      <div class="hero-eyebrow">
+        <span class="hero-pulse"></span>
+        100% Tự Nhiên · Minh Bạch Nguồn Gốc
+      </div>
+
+      <h1 class="hero-h1">
+        Nông Sản Việt<br/>
+        <span class="accent">Sạch &amp; Ngon</span><br/>
+        <span class="accent-brown">Từ Nông Trại</span>
+      </h1>
+
+      <p class="hero-desc">
+        NaFarm kết nối trực tiếp nông trại và người tiêu dùng. Mỗi sản phẩm đều có mã QR truy xuất nguồn gốc — bạn biết chính xác sản phẩm đến từ đâu, hái ngày nào.
+      </p>
+
+      <!-- Hero Search (Bước 2 – Tìm kiếm) -->
+      <div class="hero-searchbar">
+        <input type="text" placeholder="VD: Xoài sấy Đà Lạt, hạt điều Bình Phước…"/>
+        <button class="hero-search-go">🔍 Tìm Ngay</button>
+      </div>
+
+      <div class="hero-trust">
+        <span class="trust-chip">✅ Không chất bảo quản</span>
+        <span class="trust-chip">📱 QR truy xuất nguồn gốc</span>
+        <span class="trust-chip">🚚 Giao 24h toàn quốc</span>
+        <span class="trust-chip">🔄 Gói định kỳ linh hoạt</span>
+      </div>
+
+      <div class="hero-stats">
+        <div class="stat"><div class="stat-val" data-t="500" data-s="+">500+</div><div class="stat-lbl">Sản Phẩm</div></div>
+        <div class="stat"><div class="stat-val" data-t="15000" data-s="+">15,000+</div><div class="stat-lbl">Khách Hàng</div></div>
+        <div class="stat"><div class="stat-val" data-t="10" data-s=" năm">10 năm</div><div class="stat-lbl">Kinh Nghiệm</div></div>
+        <div class="stat"><div class="stat-val" data-t="50" data-s="+">50+</div><div class="stat-lbl">Nông Trại</div></div>
+      </div>
+    </div>
+
+    <!-- Right — Visual Grid -->
+    <div>
+      <div class="hero-cards-grid">
+        <div class="hero-vcard"><div class="hero-vcard-emoji">🥭</div><div class="hero-vcard-name">Trái Cây Sấy</div><div class="hero-vcard-sub">42 loại</div></div>
+        <div class="hero-vcard"><div class="hero-vcard-emoji">🌰</div><div class="hero-vcard-name">Hạt Dinh Dưỡng</div><div class="hero-vcard-sub">Nội địa & NK</div></div>
+        <div class="hero-vcard"><div class="hero-vcard-emoji">🍓</div><div class="hero-vcard-name">Trái Cây Tươi</div><div class="hero-vcard-sub">Hái ngày</div></div>
+        <div class="hero-vcard"><div class="hero-vcard-emoji">🎁</div><div class="hero-vcard-name">Giỏ Quà Tặng</div><div class="hero-vcard-sub">Doanh nghiệp</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Marquee Band -->
+<div class="marquee-band">
+  <div class="marquee-runner">
+    <span class="m-item">🌿 100% Tự Nhiên<span class="m-dot"></span></span>
+    <span class="m-item">📱 QR Truy Xuất Nguồn Gốc<span class="m-dot"></span></span>
+    <span class="m-item">🚚 Giao Hỏa Tốc 4H Nội Thành<span class="m-dot"></span></span>
+    <span class="m-item">⭐ Chuẩn An Toàn Thực Phẩm<span class="m-dot"></span></span>
+    <span class="m-item">🌱 Không Chất Bảo Quản<span class="m-dot"></span></span>
+    <span class="m-item">🔄 Subscription Linh Hoạt<span class="m-dot"></span></span>
+    <span class="m-item">💚 Organic Nhập Khẩu<span class="m-dot"></span></span>
+    <span class="m-item">🌿 100% Tự Nhiên<span class="m-dot"></span></span>
+    <span class="m-item">📱 QR Truy Xuất Nguồn Gốc<span class="m-dot"></span></span>
+    <span class="m-item">🚚 Giao Hỏa Tốc 4H Nội Thành<span class="m-dot"></span></span>
+    <span class="m-item">⭐ Chuẩn An Toàn Thực Phẩm<span class="m-dot"></span></span>
+    <span class="m-item">🌱 Không Chất Bảo Quản<span class="m-dot"></span></span>
+    <span class="m-item">🔄 Subscription Linh Hoạt<span class="m-dot"></span></span>
+    <span class="m-item">💚 Organic Nhập Khẩu<span class="m-dot"></span></span>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════════
+     CATEGORIES  (Bước 2 – Lọc theo danh mục)
+═══════════════════════════════════════════════════ -->
+<section class="section categories-bg" id="categories">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Danh Mục Sản Phẩm</div>
+      <h2 class="sec-title">Khám Phá Thực Đơn Sạch</h2>
+      <p class="sec-desc">Đa dạng lựa chọn từ vườn trái cây Đà Lạt đến hạt hữu cơ nhập khẩu. Mỗi sản phẩm đều có mã QR truy xuất.</p>
+    </div>
+    <div class="cat-grid">
+      <div class="cat-card g reveal"><span class="cat-emoji">🥭</span><div class="cat-name">Sấy Dẻo</div><div class="cat-count">42 sản phẩm</div></div>
+      <div class="cat-card b reveal"><span class="cat-emoji">🍓</span><div class="cat-name">Sấy Giòn</div><div class="cat-count">38 sản phẩm</div></div>
+      <div class="cat-card y reveal"><span class="cat-emoji">🌰</span><div class="cat-name">Hạt &amp; Ngũ Cốc</div><div class="cat-count">56 sản phẩm</div></div>
+      <div class="cat-card s reveal"><span class="cat-emoji">🍊</span><div class="cat-name">Trái Tươi Việt Nam</div><div class="cat-count">30 sản phẩm</div></div>
+      <div class="cat-card p reveal"><span class="cat-emoji">🫐</span><div class="cat-name">Trái Nhập Khẩu</div><div class="cat-count">24 sản phẩm</div></div>
+      <div class="cat-card r reveal"><span class="cat-emoji">🍵</span><div class="cat-name">Trà &amp; Thức Uống</div><div class="cat-count">18 sản phẩm</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     PRODUCTS  (Bước 2 – Filter, Sort, QR, Cart, Wishlist)
+═══════════════════════════════════════════════════ -->
+<section class="section products-bg" id="products">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Sản Phẩm Nổi Bật</div>
+      <h2 class="sec-title">Bán Chạy Tháng Này</h2>
+      <p class="sec-desc">Nhấn vào sản phẩm để xem chi tiết và mã QR truy xuất nguồn gốc nông trại.</p>
+    </div>
+
+    <!-- Filter (Bước 2 – Lọc theo loại, nguồn gốc) -->
+    <div class="filter-row">
+      <button class="f-pill active" data-cat="all">🌟 Tất Cả</button>
+      <button class="f-pill" data-cat="say-deo">🍯 Sấy Dẻo</button>
+      <button class="f-pill" data-cat="say-gion">🥨 Sấy Giòn</button>
+      <button class="f-pill" data-cat="hat">🥜 Hạt &amp; Ngũ Cốc</button>
+      <button class="f-pill" data-cat="tuoi">🌿 Tươi</button>
+      <button class="f-pill" data-cat="tra">🍵 Trà</button>
+    </div>
+
+    <div class="prods-toolbar">
+      <span class="prods-count">12 sản phẩm</span>
+      <select class="sort-sel">
+        <option value="popular">Phổ biến nhất</option>
+        <option value="price-asc">Giá: Thấp → Cao</option>
+        <option value="price-desc">Giá: Cao → Thấp</option>
+        <option value="rating">Đánh giá cao nhất</option>
+      </select>
+    </div>
+
+    <div class="prods-grid" id="prods-grid"></div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     SUBSCRIPTIONS  (Bước 2 – Gói subscription định kỳ)
+═══════════════════════════════════════════════════ -->
+<section class="section subs-bg" id="subscriptions">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Gói Đặt Hàng Định Kỳ</div>
+      <h2 class="sec-title">Đăng Ký – Tiết Kiệm Hơn</h2>
+      <p class="sec-desc">Nhận hàng tự động, hủy bất cứ lúc nào. Tiết kiệm đến 20% so với mua lẻ.</p>
+    </div>
+
+    <div class="subs-grid">
+      <!-- Bronze -->
+      <div class="sub-card tier-1 reveal">
+        <div class="sub-icon">🌱</div>
+        <div class="sub-tier">Gói Cơ Bản</div>
+        <div class="sub-freq">Giao 2 lần / tháng</div>
+        <div class="sub-price">199,000<span class="sub-per">đ/tháng</span></div>
+        <div class="sub-save">💰 Tiết kiệm 10% so với mua lẻ</div>
+        <ul class="sub-list">
+          <li><span class="ck">✓</span> 2 hộp sản phẩm / tháng</li>
+          <li><span class="ck">✓</span> Tự chọn danh mục yêu thích</li>
+          <li><span class="ck">✓</span> Miễn phí vận chuyển</li>
+          <li><span class="ck">✓</span> Hủy bất cứ lúc nào</li>
+        </ul>
+        <button class="sub-btn t1" data-tier="t1">Đăng Ký Gói Cơ Bản</button>
+      </div>
+
+      <!-- Silver -->
+      <div class="sub-card tier-2 reveal">
+        <div class="sub-icon">⭐</div>
+        <div class="sub-tier">Gói Bạc</div>
+        <div class="sub-freq">Giao hàng tuần</div>
+        <div class="sub-price">349,000<span class="sub-per">đ/tháng</span></div>
+        <div class="sub-save">💰 Tiết kiệm 15% so với mua lẻ</div>
+        <ul class="sub-list">
+          <li><span class="ck">✓</span> 4 hộp sản phẩm / tháng</li>
+          <li><span class="ck">✓</span> Ưu tiên sản phẩm mới nhất</li>
+          <li><span class="ck">✓</span> Miễn phí giao hàng hỏa tốc</li>
+          <li><span class="ck">✓</span> Tặng 1 snack mẫu mỗi tháng</li>
+          <li><span class="ck">✓</span> Hủy bất cứ lúc nào</li>
+        </ul>
+        <button class="sub-btn t2" data-tier="t2">Đăng Ký Gói Bạc</button>
+      </div>
+
+      <!-- Gold -->
+      <div class="sub-card tier-3 popular-plan reveal">
+        <div class="sub-hot">✨ Phổ Biến</div>
+        <div class="sub-icon">👑</div>
+        <div class="sub-tier">Gói Vàng</div>
+        <div class="sub-freq">Giao 2 lần / tuần</div>
+        <div class="sub-price">599,000<span class="sub-per">đ/tháng</span></div>
+        <div class="sub-save">💰 Tiết kiệm 20% so với mua lẻ</div>
+        <ul class="sub-list">
+          <li><span class="ck">✓</span> 8 hộp sản phẩm / tháng</li>
+          <li><span class="ck">✓</span> Thực đơn cá nhân hóa AI</li>
+          <li><span class="ck">✓</span> Giao hỏa tốc 4h khi cần</li>
+          <li><span class="ck">✓</span> Tặng giỏ quà 200k/quý</li>
+          <li><span class="ck">✓</span> Hotline hỗ trợ ưu tiên 24/7</li>
+          <li><span class="ck">✓</span> Hủy bất cứ lúc nào</li>
+        </ul>
+        <button class="sub-btn t3" data-tier="t3">👑 Đăng Ký Gói Vàng</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FEATURES  (Bước 1 – Cam kết thương hiệu)
+═══════════════════════════════════════════════════ -->
+<section class="section features-bg">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Cam Kết NaFarm</div>
+      <h2 class="sec-title">Tại Sao Chọn Chúng Tôi?</h2>
+      <p class="sec-desc">Từ khâu thu hoạch đến giao hàng, mỗi bước đều được giám sát chặt chẽ để đảm bảo chất lượng tốt nhất.</p>
+    </div>
+    <div class="feat-grid">
+      <div class="feat-card reveal"><div class="feat-icon">🌱</div><h3 class="feat-title">100% Tự Nhiên</h3><p class="feat-desc">Không phẩm màu, không chất bảo quản. Thuần từ thiên nhiên Việt Nam và hữu cơ quốc tế.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">📱</div><h3 class="feat-title">QR Truy Xuất</h3><p class="feat-desc">Quét mã QR để xem ngay nông trại xuất xứ, ngày thu hoạch, phương pháp chế biến.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">🏆</div><h3 class="feat-title">Chuẩn An Toàn</h3><p class="feat-desc">Đạt tiêu chuẩn VSATTP Bộ Y Tế, quy trình sản xuất theo chuẩn Nhật Bản.</p></div>
+      <div class="feat-card reveal"><div class="feat-icon">🚚</div><h3 class="feat-title">Giao Siêu Nhanh</h3><p class="feat-desc">Hỏa tốc 4h nội thành TP.HCM qua AhaMove. Toàn quốc 24–48h qua GHTK, GHN.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     TESTIMONIALS  (Bước 1 – Xây dựng thương hiệu)
+═══════════════════════════════════════════════════ -->
+<section class="section testi-bg">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Khách Hàng Nói Gì</div>
+      <h2 class="sec-title">Hơn 15,000 Khách Hàng Tin Tưởng</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="testi-card reveal">
+        <p class="testi-text">Xoài sấy dẻo NaFarm ngọt tự nhiên, không bị ngậy chút nào. Quét QR thấy ngay nguồn gốc nông trại — tôi rất tin tưởng sản phẩm nhờ tính năng này!</p>
+        <div class="testi-author"><div class="testi-avatar" style="background:var(--green-100)">👩</div><div><div class="testi-name">Nguyễn Thị Lan</div><div class="testi-role">TP.HCM ⭐⭐⭐⭐⭐</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-text">Đặt 50 giỏ quà Tết cho đối tác doanh nghiệp, NaFarm xử lý nhanh và đóng gói rất chuyên nghiệp. Đối tác ai cũng khen chất lượng.</p>
+        <div class="testi-author"><div class="testi-avatar" style="background:var(--pastel-sky)">👨‍💼</div><div><div class="testi-name">Trần Văn Minh</div><div class="testi-role">Giám đốc DN ⭐⭐⭐⭐⭐</div></div></div>
+      </div>
+      <div class="testi-card reveal">
+        <p class="testi-text">Đăng ký gói Vàng được 4 tháng rồi. Tiết kiệm rõ rệt 20%, mỗi tuần nhận 2 hộp đều đặn, chất lượng không bao giờ thay đổi. Rất hài lòng!</p>
+        <div class="testi-author"><div class="testi-avatar" style="background:var(--pastel-peach)">👩‍🍳</div><div><div class="testi-name">Lê Thị Thu Hà</div><div class="testi-role">Food Blogger ⭐⭐⭐⭐⭐</div></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     NEWSLETTER  (Bước 1 – Xây dựng cộng đồng)
+═══════════════════════════════════════════════════ -->
+<section class="nl-bg">
+  <div class="container">
+    <div class="sec-head">
+      <div class="sec-eyebrow">Nhận Ưu Đãi</div>
+      <h2 class="sec-title">Đăng Ký – Nhận Voucher 15%</h2>
+      <p class="sec-desc">Cập nhật sản phẩm mới, khuyến mãi độc quyền và bí quyết dinh dưỡng từ chuyên gia NaFarm.</p>
+    </div>
+    <form class="nl-form">
+      <input class="nl-input" type="email" placeholder="Nhập email của bạn…"/>
+      <button type="submit" class="btn btn-secondary btn-lg">🎁 Nhận Voucher Ngay</button>
+    </form>
+  </div>
+</section>
+
+<!-- ═══════════════════════════════════════════════════
+     FOOTER
+═══════════════════════════════════════════════════ -->
+<footer class="footer">
+  <div class="footer-grid">
+    <div class="f-brand">
+      <a href="/" class="logo">
+        <div class="logo-mark">🌿</div>
+        <div class="logo-text"><span class="brand">NaFarm</span><span class="tagline">Từ Nông Trại Đến Bàn Ăn</span></div>
+      </a>
+      <p>Vì sức khỏe người Việt — NaFarm cung cấp đặc sản sạch 100% từ những nông trại uy tín nhất. Minh bạch nguồn gốc, an toàn tuyệt đối.</p>
+      <div class="f-socials">
+        <button class="f-social">📘</button>
+        <button class="f-social">📸</button>
+        <button class="f-social">▶️</button>
+        <button class="f-social">🎵</button>
+      </div>
+    </div>
+    <div class="f-col">
+      <h4>Sản Phẩm</h4>
+      <ul>
+        <li><a href="#products">Trái Cây Sấy Dẻo</a></li>
+        <li><a href="#products">Trái Cây Sấy Giòn</a></li>
+        <li><a href="#products">Hạt Dinh Dưỡng</a></li>
+        <li><a href="#products">Trái Cây Tươi</a></li>
+        <li><a href="#subscriptions">Gói Subscription</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Hỗ Trợ</h4>
+      <ul>
+        <li><a href="pages/about.html">Về Chúng Tôi</a></li>
+        <li><a href="pages/contact.html">Liên Hệ</a></li>
+        <li><a href="#">Chính Sách Đổi Trả</a></li>
+        <li><a href="#">Tra Cứu Đơn Hàng</a></li>
+        <li><a href="pages/admin/">Admin Dashboard</a></li>
+      </ul>
+    </div>
+    <div class="f-col">
+      <h4>Liên Hệ</h4>
+      <ul>
+        <li><a href="tel:0938828553">📞 0938.828.553</a></li>
+        <li><a href="mailto:info@nafarm.vn">✉️ info@nafarm.vn</a></li>
+        <li><a href="#">📍 TP. Hồ Chí Minh</a></li>
+        <li><a href="#">⏰ 8:00–21:00 mỗi ngày</a></li>
+        <li><a href="#">💳 VNPay · MoMo · COD</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 NaFarm – Đặc Sản Việt Nam. All rights reserved.</span>
+    <span>Thiết kế theo chuẩn 6 Bước TMĐT · PCI DSS Compliant</span>
+  </div>
+</footer>
+
+<!-- ═══════════════════════════════════════════════════
+     AUTH MODAL  (Bước 2 – OAuth + Email/SĐT)
+═══════════════════════════════════════════════════ -->
+<div class="auth-overlay">
+  <div class="auth-box">
+    <div class="auth-top">
+      <div class="auth-logo">🌿</div>
+      <h2>Chào Mừng Đến NaFarm</h2>
+      <p>Đăng nhập để mua hàng, xem đơn và nhận ưu đãi độc quyền</p>
+      <div class="auth-tabs">
+        <button class="a-tab on" data-t="login">Đăng Nhập</button>
+        <button class="a-tab" data-t="register">Đăng Ký</button>
+      </div>
+    </div>
+    <div class="auth-body">
+      <!-- Login -->
+      <div class="a-pane on" data-p="login">
+        <form id="login-form">
+          <div class="f-group"><label class="f-label">Email hoặc Số Điện Thoại</label><input id="l-email" type="text" class="f-input" placeholder="email@example.com"/></div>
+          <div class="f-group"><label class="f-label">Mật Khẩu</label><input id="l-pass" type="password" class="f-input" placeholder="••••••••"/></div>
+          <button type="submit" class="btn btn-primary btn-block" style="margin-bottom:10px">🌿 Đăng Nhập</button>
+          <div style="text-align:center;font-size:.76rem;color:var(--text-muted)"><a href="#" style="color:var(--primary)">Quên mật khẩu?</a></div>
+        </form>
+        <div class="auth-or"><span>hoặc đăng nhập nhanh với</span></div>
+        <div class="social-btns">
+          <button class="s-btn" data-p="Google">🔵 Google</button>
+          <button class="s-btn" data-p="Facebook">📘 Facebook</button>
+        </div>
+      </div>
+      <!-- Register -->
+      <div class="a-pane" data-p="register">
+        <form id="reg-form">
+          <div class="f-group"><label class="f-label">Họ và Tên</label><input id="r-name" type="text" class="f-input" placeholder="Nguyễn Văn A"/></div>
+          <div class="f-group"><label class="f-label">Email</label><input id="r-email" type="email" class="f-input" placeholder="email@example.com"/></div>
+          <div class="f-group"><label class="f-label">Mật Khẩu</label><input id="r-pass" type="password" class="f-input" placeholder="Tối thiểu 8 ký tự"/></div>
+          <button type="submit" class="btn btn-secondary btn-block">🎉 Tạo Tài Khoản</button>
+        </form>
+        <div class="auth-or"><span>hoặc đăng ký nhanh với</span></div>
+        <div class="social-btns">
+          <button class="s-btn" data-p="Google">🔵 Google</button>
+          <button class="s-btn" data-p="Facebook">📘 Facebook</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Cart Drawer (Bước 2 – Giỏ hàng + Thanh toán) -->
+<div class="drw-overlay"></div>
+<div class="cart-drw">
+  <div class="drw-head">
+    <span class="drw-title">🛒 Giỏ Hàng</span>
+    <button class="drw-close">✕</button>
+  </div>
+  <div class="drw-body">
+    <div class="drw-empty"><div class="drw-empty-icon">🛒</div><p>Giỏ hàng trống</p></div>
+  </div>
+  <div class="drw-foot" style="display:none"></div>
+</div>
+
+<!-- Orders Drawer (Bước 2 – Lịch sử đơn hàng) -->
+<div class="orders-drw">
+  <div class="drw-head">
+    <span class="drw-title">📦 Đơn Hàng Của Tôi</span>
+    <button class="drw-close">✕</button>
+  </div>
+  <div class="orders-body"></div>
+</div>
+
+<!-- Product Detail Modal (Bước 4 – Chi tiết + QR truy xuất) -->
+<div class="overlay"></div>
+<div class="p-modal"></div>
+
+<!-- Toast Notifications -->
+<div class="toast-tray"></div>
+
+<script src="/js/app.js"></script>
+</body>
+</html>
