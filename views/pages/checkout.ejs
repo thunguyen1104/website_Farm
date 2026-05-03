@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Thanh Toán – NaFarm</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="nav scrolled" id="nav">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">🌿</div>
+      <div class="logo-text"><span class="brand">NaFarm</span><span class="tagline">Từ Nông Trại Đến Bàn Ăn</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Trang Chủ</a></li>
+      <li><a href="/#products">Sản Phẩm</a></li>
+      <li><a href="/pages/contact">Liên Hệ</a></li>
+    </ul>
+    <div class="nav-actions">
+      <div id="nav-user-ck" style="display:flex;align-items:center;gap:8px">
+        <span id="ck-user-name" style="font-size:.85rem;font-weight:700;color:var(--text-secondary)"></span>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<div class="checkout-layout">
+  <!-- LEFT COLUMN -->
+  <div>
+    <!-- Steps Bar -->
+    <div class="steps-bar" style="margin-bottom:28px">
+      <div class="step-item">
+        <div class="step-num done">✓</div>
+        <span class="step-lbl done">Giỏ hàng</span>
+        <div class="step-line done"></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num active">2</div>
+        <span class="step-lbl active">Thanh toán</span>
+        <div class="step-line"></div>
+      </div>
+      <div class="step-item">
+        <div class="step-num todo">3</div>
+        <span class="step-lbl todo">Xác nhận</span>
+      </div>
+    </div>
+
+    <!-- Địa chỉ giao hàng -->
+    <div class="checkout-section">
+      <h3>📦 Địa Chỉ Giao Hàng</h3>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Họ và tên *</label>
+          <input type="text" id="ck-name" placeholder="Nguyễn Văn A" required/>
+        </div>
+        <div class="form-group">
+          <label>Số điện thoại *</label>
+          <input type="tel" id="ck-phone" placeholder="0901 234 567" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" id="ck-email" placeholder="email@example.com"/>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Tỉnh / Thành phố *</label>
+          <select id="ck-city">
+            <option value="">-- Chọn tỉnh/thành --</option>
+            <option>TP. Hồ Chí Minh</option><option>Hà Nội</option><option>Đà Nẵng</option>
+            <option>Cần Thơ</option><option>Bình Dương</option><option>Đồng Nai</option>
+            <option>Vũng Tàu</option><option>Nha Trang</option><option>Đà Lạt</option>
+            <option>Huế</option><option>Hải Phòng</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Quận / Huyện *</label>
+          <input type="text" id="ck-district" placeholder="Quận 1"/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Địa chỉ cụ thể *</label>
+        <input type="text" id="ck-addr" placeholder="Số nhà, tên đường, phường/xã"/>
+      </div>
+      <div class="form-group">
+        <label>Ghi chú cho tài xế (tuỳ chọn)</label>
+        <textarea id="ck-note" rows="2" placeholder="Gọi trước 30 phút, giao giờ hành chính..."></textarea>
+      </div>
+    </div>
+
+    <!-- Phương thức thanh toán -->
+    <div class="checkout-section">
+      <h3>💳 Phương Thức Thanh Toán</h3>
+      <div class="pay-method-grid">
+        <label class="pay-opt selected" id="pay-cod">
+          <input type="radio" name="payment" value="COD" checked/>
+          <div>
+            <div class="pay-opt-label">💵 COD</div>
+            <div class="pay-opt-sub">Thanh toán khi nhận hàng</div>
+          </div>
+        </label>
+        <label class="pay-opt" id="pay-momo">
+          <input type="radio" name="payment" value="MoMo"/>
+          <div>
+            <div class="pay-opt-label">📱 MoMo</div>
+            <div class="pay-opt-sub">Ví điện tử MoMo</div>
+          </div>
+        </label>
+        <label class="pay-opt" id="pay-vnpay">
+          <input type="radio" name="payment" value="VNPay"/>
+          <div>
+            <div class="pay-opt-label">💳 VNPay</div>
+            <div class="pay-opt-sub">Quét QR / Thẻ nội địa</div>
+          </div>
+        </label>
+        <label class="pay-opt" id="pay-bank">
+          <input type="radio" name="payment" value="ATM"/>
+          <div>
+            <div class="pay-opt-label">🏦 Chuyển Khoản</div>
+            <div class="pay-opt-sub">ATM / Internet banking</div>
+          </div>
+        </label>
+      </div>
+      <!-- Bank info khi chọn chuyển khoản -->
+      <div id="bank-info" style="display:none;margin-top:16px;background:var(--green-50);border-radius:12px;padding:16px;border:1px solid var(--primary)">
+        <div style="font-weight:800;margin-bottom:8px">📋 Thông tin chuyển khoản</div>
+        <div style="font-size:.85rem;line-height:2">
+          🏦 Ngân hàng: <strong>Vietcombank</strong><br/>
+          👤 Tên TK: <strong>CONG TY TNHH NAFARM</strong><br/>
+          💳 Số TK: <strong>1234 5678 9012 3456</strong><br/>
+          📝 Nội dung: <strong id="bank-ref">NF-[Mã đơn hàng]</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Giao hàng -->
+    <div class="checkout-section">
+      <h3>🚚 Phương Thức Vận Chuyển</h3>
+      <div style="display:flex;flex-direction:column;gap:10px">
+        <label class="pay-opt selected" style="cursor:pointer">
+          <input type="radio" name="shipping" value="standard" checked style="accent-color:var(--primary);width:16px;height:16px"/>
+          <div style="flex:1">
+            <div class="pay-opt-label">📦 Giao Hàng Tiêu Chuẩn</div>
+            <div class="pay-opt-sub">2–3 ngày · Miễn phí đơn ≥ 300k</div>
+          </div>
+          <div id="ship-std-price" style="font-weight:800;font-size:.9rem;color:var(--primary)">Miễn phí</div>
+        </label>
+        <label class="pay-opt" style="cursor:pointer">
+          <input type="radio" name="shipping" value="express" style="accent-color:var(--primary);width:16px;height:16px"/>
+          <div style="flex:1">
+            <div class="pay-opt-label">⚡ Giao Hỏa Tốc</div>
+            <div class="pay-opt-sub">Trong ngày (nội thành HCM, HN)</div>
+          </div>
+          <div style="font-weight:800;font-size:.9rem">29.000đ</div>
+        </label>
+      </div>
+    </div>
+
+    <button class="btn btn-primary btn-block btn-lg" id="btn-place-order" style="margin-bottom:40px">
+      🎉 Đặt Hàng Ngay
+    </button>
+  </div>
+
+  <!-- RIGHT COLUMN – Order Summary -->
+  <div>
+    <div class="order-summary-box">
+      <h3>🛒 Đơn Hàng Của Bạn</h3>
+      <div id="oc-items"></div>
+      <div style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px">
+        <!-- Coupon -->
+        <div class="coupon-row">
+          <input type="text" id="coupon-input" placeholder="Nhập mã giảm giá"/>
+          <button id="btn-coupon">Áp Dụng</button>
+        </div>
+        <div id="coupon-msg" style="font-size:.78rem;margin-bottom:8px"></div>
+        <div class="summary-line"><span>Tạm tính:</span><span id="sum-sub">0đ</span></div>
+        <div class="summary-line"><span>Vận chuyển:</span><span id="sum-ship">30.000đ</span></div>
+        <div class="summary-line" id="discount-line" style="display:none;color:var(--primary)"><span>Giảm giá:</span><span id="sum-disc">0đ</span></div>
+        <div class="summary-total"><span>Tổng cộng:</span><span id="sum-total" style="color:var(--primary)">0đ</span></div>
+      </div>
+      <div style="margin-top:16px;padding:12px;background:var(--green-50);border-radius:10px;font-size:.78rem;color:var(--text-secondary)">
+        <div style="font-weight:800;margin-bottom:4px">🔒 Cam Kết NaFarm</div>
+        ✅ Hàng 100% chính hãng<br/>
+        🔄 Đổi trả miễn phí 7 ngày<br/>
+        🚚 Giao hàng toàn quốc<br/>
+        📱 Hỗ trợ 24/7: 1800-NaFarm
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Success Modal -->
+<div class="modal-overlay" id="success-modal">
+  <div class="modal-box" style="text-align:center;max-width:420px">
+    <div style="font-size:4rem;margin-bottom:16px">🎉</div>
+    <h2 style="font-family:var(--font-display);font-size:1.4rem;color:var(--primary);margin-bottom:8px">Đặt Hàng Thành Công!</h2>
+    <p style="color:var(--text-secondary);font-size:.9rem;margin-bottom:4px">Mã đơn hàng của bạn:</p>
+    <div id="success-order-id" style="font-size:1.2rem;font-weight:800;color:var(--text-primary);margin-bottom:16px"></div>
+    <p style="color:var(--text-muted);font-size:.84rem;margin-bottom:24px">
+      NaFarm đã nhận đơn! Chúng tôi sẽ liên hệ xác nhận trong vòng 30 phút.<br/>
+      Theo dõi đơn hàng qua nút bên dưới.
+    </p>
+    <div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">
+      <button class="btn btn-primary" id="btn-track-from-success">📍 Theo Dõi Đơn</button>
+      <a href="../index.html" class="btn btn-ghost">🛍️ Tiếp Tục Mua</a>
+    </div>
+  </div>
+</div>
+
+<div class="toast-tray"></div>
+<script>
+(function(){
+  'use strict';
+  function loadLS(k,d){try{const v=localStorage.getItem('nf_'+k);return v?JSON.parse(v):d;}catch(e){return d;}}
+  function saveLS(k,v){try{localStorage.setItem('nf_'+k,JSON.stringify(v));}catch(e){}}
+  const vnd=n=>n.toLocaleString('vi-VN')+'đ';
+  function toast(msg,type=''){const tray=document.querySelector('.toast-tray');if(!tray)return;const el=document.createElement('div');el.className='toast'+(type?' '+type:'');el.textContent=msg;tray.appendChild(el);setTimeout(()=>el.style.opacity='0',2900);setTimeout(()=>el.remove(),3300);}
+
+  const cart  =loadLS('cart',[]);
+  const user  =loadLS('user',null);
+  const orders=loadLS('orders',[]);
+
+  // Redirect if no cart / no user
+  if(!user){window.location.href='/';return;}
+  if(!cart.length){window.location.href='/';return;}
+
+  // Pre-fill user info
+  document.getElementById('ck-name').value=user.name||'';
+  document.getElementById('ck-email').value=user.email||'';
+  document.getElementById('nav-user-ck').querySelector('#ck-user-name').textContent='👤 '+user.name;
+
+  // Render cart items
+  let discount=0;
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let ship=sub>=300000?0:30000;
+  const updateTotals=()=>{
+    const total=sub+ship-discount;
+    document.getElementById('sum-sub').textContent=vnd(sub);
+    document.getElementById('sum-ship').textContent=ship===0?'<span style="color:var(--primary)">Miễn phí 🎉</span>':vnd(ship);
+    document.getElementById('sum-ship').innerHTML=ship===0?'<span style="color:var(--primary)">Miễn phí 🎉</span>':vnd(ship);
+    document.getElementById('sum-total').textContent=vnd(Math.max(0,total));
+    document.getElementById('ship-std-price').textContent=ship===0?'Miễn phí':vnd(ship);
+  };
+  document.getElementById('oc-items').innerHTML=cart.map(item=>`
+    <div class="oc-item">
+      <div class="oc-emoji">${item.e}<span class="oc-badge">${item.qty}</span></div>
+      <div class="oc-name">${item.name}</div>
+      <div class="oc-price">${vnd(item.price*item.qty)}</div>
+    </div>`).join('');
+  updateTotals();
+
+  // Payment method toggle
+  document.querySelectorAll('.pay-opt input[type=radio][name=payment]').forEach(r=>{
+    r.addEventListener('change',()=>{
+      document.querySelectorAll('.pay-opt').forEach(o=>o.classList.remove('selected'));
+      r.closest('.pay-opt').classList.add('selected');
+      document.getElementById('bank-info').style.display=r.value==='ATM'?'block':'none';
+    });
+  });
+
+  // Shipping toggle
+  document.querySelectorAll('.pay-opt input[type=radio][name=shipping]').forEach(r=>{
+    r.addEventListener('change',()=>{
+      document.querySelectorAll('label.pay-opt').forEach(o=>{
+        if(o.querySelector('input[name=shipping]')) o.classList.remove('selected');
+      });
+      r.closest('label').classList.add('selected');
+      ship=r.value==='express'?29000:(sub>=300000?0:30000);
+      updateTotals();
+    });
+  });
+
+  // Coupon
+  const COUPONS={'NAFARM10':.10,'NAFARM20':.20,'SUMMER15':.15,'NEWUSER':.05};
+  document.getElementById('btn-coupon').addEventListener('click',()=>{
+    const code=document.getElementById('coupon-input').value.trim().toUpperCase();
+    const msg=document.getElementById('coupon-msg');
+    const dl=document.getElementById('discount-line');
+    if(!code){toast('⚠️ Nhập mã giảm giá','warn');return;}
+    if(COUPONS[code]){
+      discount=Math.round(sub*COUPONS[code]);
+      msg.style.color='var(--primary)';msg.textContent=`✅ Áp dụng thành công! Giảm ${(COUPONS[code]*100).toFixed(0)}%`;
+      dl.style.display='flex';
+      document.getElementById('sum-disc').textContent='-'+vnd(discount);
+      updateTotals();
+    } else {
+      msg.style.color='var(--danger)';msg.textContent='❌ Mã không hợp lệ hoặc đã hết hạn';
+      discount=0;dl.style.display='none';updateTotals();
+    }
+  });
+
+  // Place order
+  let lastOrderId='';
+  document.getElementById('btn-place-order').addEventListener('click',()=>{
+    const name=document.getElementById('ck-name').value.trim();
+    const phone=document.getElementById('ck-phone').value.trim();
+    const city=document.getElementById('ck-city').value;
+    const district=document.getElementById('ck-district').value.trim();
+    const addr=document.getElementById('ck-addr').value.trim();
+    const payment=document.querySelector('input[name=payment]:checked')?.value||'COD';
+    const shipping=document.querySelector('input[name=shipping]:checked')?.value||'standard';
+    if(!name){toast('⚠️ Nhập họ và tên','warn');return;}
+    if(!phone||!/^0[0-9]{9}$/.test(phone.replace(/\s/g,''))){toast('⚠️ Số điện thoại không hợp lệ','warn');return;}
+    if(!city){toast('⚠️ Chọn tỉnh/thành phố','warn');return;}
+    if(!district){toast('⚠️ Nhập quận/huyện','warn');return;}
+    if(!addr){toast('⚠️ Nhập địa chỉ cụ thể','warn');return;}
+    const fullAddr=`${addr}, ${district}, ${city}`;
+    const orderId='#NF-'+Date.now().toString().slice(-8);
+    lastOrderId=orderId;
+    const total=sub+ship-discount;
+    const newOrder={
+      id:orderId,userId:user.email,status:'processing',
+      items:cart.map(i=>`${i.name} ×${i.qty}`).join(', '),
+      total:Math.max(0,total),date:new Date().toLocaleDateString('vi-VN'),
+      addr:fullAddr,phone:phone.replace(/\s/g,''),payment,shipping,
+      note:document.getElementById('ck-note').value.trim()
+    };
+    const updOrders=[newOrder,...orders];
+    saveLS('orders',updOrders);
+    saveLS('cart',[]);
+    document.getElementById('success-order-id').textContent=orderId;
+    document.getElementById('success-modal').classList.add('on');
+  });
+
+  document.getElementById('btn-track-from-success').addEventListener('click',()=>{
+    window.location.href='/pages/order-tracking?id='+encodeURIComponent(lastOrderId);
+  });
+})();
+</script>
+</body>
+</html>

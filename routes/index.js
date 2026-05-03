@@ -1,13 +1,15 @@
 const express = require('express');
 const router = express.Router();
 const Product = require('../models/Product');
+const Category = require('../models/Category');
 
 router.get('/', async (req, res) => {
   try {
-    const products = await Product.find().limit(8).sort({ createdAt: -1 });
-    res.render('index', { user: req.user, products });
+    const products = await Product.find().sort({ createdAt: -1 });
+    const categories = await Category.find();
+    res.render('index', { user: req.user, products, categories });
   } catch (err) {
-    res.render('index', { user: req.user, products: [] });
+    res.render('index', { user: req.user, products: [], categories: [] });
   }
 });
 

@@ -60,7 +60,8 @@ async function loadProducts() {
     let url = `/api/products?cat=${currentCat}&sort=${currentSort}`;
     if (currentSearch) url += `&search=${encodeURIComponent(currentSearch)}`;
     const res = await fetch(url);
-    const products = await res.json();
+    const data = await res.json();
+    const products = Array.isArray(data) ? data : [];
     currentProducts = products;
     renderProductGrid(products);
   } catch (err) {
@@ -495,9 +496,11 @@ function initNewsletter() {
 
 function animateStats() { /* giữ nguyên từ cũ */ }
 function observeReveal() {
-  new IntersectionObserver(entries => {
+  const observer = new IntersectionObserver(entries => {
     entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('on'); });
-  }, { threshold: 0.08 }).observe(document.querySelectorAll('.reveal'));
+  }, { threshold: 0.08 });
+
+  $$('.reveal').forEach(el => observer.observe(el));
 }
 
 /* ── Init ────────────────────────────────────────────────── */

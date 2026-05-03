@@ -56,12 +56,12 @@
               <div class="user-drop-name">Tên Khách Hàng</div>
               <div class="user-drop-email">email@example.com</div>
             </div>
-            <button class="udrop-item" id="btn-orders">📦 Đơn Hàng Của Tôi</button>
-            <button class="udrop-item">❤️ Sản Phẩm Yêu Thích</button>
-            <button class="udrop-item">🔄 Gói Subscription</button>
-            <button class="udrop-item">⚙️ Cài Đặt Tài Khoản</button>
+            <button class="udrop-item" id="btn-orders">Đơn Hàng Của Tôi</button>
+            <button class="udrop-item">Sản Phẩm Yêu Thích</button>
+            <button class="udrop-item">Gói Subscription</button>
+            <button class="udrop-item">Cài Đặt Tài Khoản</button>
             <div class="drop-sep"></div>
-            <button class="udrop-item red" id="btn-logout">🚪 Đăng Xuất</button>
+            <button class="udrop-item red" id="btn-logout">Đăng Xuất</button>
           </div>
         </div>
       </div>
@@ -82,9 +82,9 @@
 <div class="mob-menu">
   <button class="mob-x">✕</button>
   <a href="#home">Trang Chủ</a>
-  <a href="/pages/categories">Danh Mục</a>
-  <a href="/pages/products">Sản Phẩm</a>
-  <a href="/pages/subscriptions">Gói Định Kỳ</a>
+  <a href="#categories">Danh Mục</a>
+  <a href="#products">Sản Phẩm</a>
+  <a href="#subscriptions">Gói Định Kỳ</a>
   <a href="/pages/about">Về NaFarm</a>
   <a href="/pages/contact">Liên Hệ</a>
   <button class="btn btn-primary" data-open-auth style="margin-top:8px">Đăng Nhập / Đăng Ký</button>
@@ -119,14 +119,14 @@
       <!-- Hero Search (Bước 2 – Tìm kiếm) -->
       <div class="hero-searchbar">
         <input type="text" placeholder="VD: Xoài sấy Đà Lạt, hạt điều Bình Phước…"/>
-        <button class="hero-search-go">🔍 Tìm Ngay</button>
+        <button class="hero-search-go">Tìm Ngay</button>
       </div>
 
       <div class="hero-trust">
-        <span class="trust-chip">✅ Không chất bảo quản</span>
-        <span class="trust-chip">📱 QR truy xuất nguồn gốc</span>
-        <span class="trust-chip">🚚 Giao 24h toàn quốc</span>
-        <span class="trust-chip">🔄 Gói định kỳ linh hoạt</span>
+        <span class="trust-chip">Không chất bảo quản</span>
+        <span class="trust-chip">QR truy xuất nguồn gốc</span>
+        <span class="trust-chip">Giao 24h toàn quốc</span>
+        <span class="trust-chip">Gói định kỳ linh hoạt</span>
       </div>
 
       <div class="hero-stats">
@@ -180,12 +180,15 @@
       <p class="sec-desc">Đa dạng lựa chọn từ vườn trái cây Đà Lạt đến hạt hữu cơ nhập khẩu. Mỗi sản phẩm đều có mã QR truy xuất.</p>
     </div>
     <div class="cat-grid">
-      <div class="cat-card g reveal"><span class="cat-emoji">🥭</span><div class="cat-name">Sấy Dẻo</div><div class="cat-count">42 sản phẩm</div></div>
-      <div class="cat-card b reveal"><span class="cat-emoji">🍓</span><div class="cat-name">Sấy Giòn</div><div class="cat-count">38 sản phẩm</div></div>
-      <div class="cat-card y reveal"><span class="cat-emoji">🌰</span><div class="cat-name">Hạt &amp; Ngũ Cốc</div><div class="cat-count">56 sản phẩm</div></div>
-      <div class="cat-card s reveal"><span class="cat-emoji">🍊</span><div class="cat-name">Trái Tươi Việt Nam</div><div class="cat-count">30 sản phẩm</div></div>
-      <div class="cat-card p reveal"><span class="cat-emoji">🫐</span><div class="cat-name">Trái Nhập Khẩu</div><div class="cat-count">24 sản phẩm</div></div>
-      <div class="cat-card r reveal"><span class="cat-emoji">🍵</span><div class="cat-name">Trà &amp; Thức Uống</div><div class="cat-count">18 sản phẩm</div></div>
+      <% categories.forEach(cat => {
+        const count = products.filter(p => p.category === cat.slug).length;
+      %>
+      <div class="cat-card <%= cat.color %> reveal">
+        <span class="cat-emoji"><%= cat.emoji %></span>
+        <div class="cat-name"><%= cat.name %></div>
+        <div class="cat-count"><%= count %> sản phẩm</div>
+      </div>
+      <% }); %>
     </div>
   </div>
 </section>
@@ -203,12 +206,12 @@
 
     <!-- Filter (Bước 2 – Lọc theo loại, nguồn gốc) -->
     <div class="filter-row">
-      <button class="f-pill active" data-cat="all">🌟 Tất Cả</button>
-      <button class="f-pill" data-cat="say-deo">🍯 Sấy Dẻo</button>
-      <button class="f-pill" data-cat="say-gion">🥨 Sấy Giòn</button>
-      <button class="f-pill" data-cat="hat">🥜 Hạt &amp; Ngũ Cốc</button>
-      <button class="f-pill" data-cat="tuoi">🌿 Tươi</button>
-      <button class="f-pill" data-cat="tra">🍵 Trà</button>
+      <button class="f-pill active" data-cat="all">Tất Cả</button>
+      <button class="f-pill" data-cat="say-deo">Sấy Dẻo</button>
+      <button class="f-pill" data-cat="say-gion">Sấy Giòn</button>
+      <button class="f-pill" data-cat="hat">Hạt &amp; Ngũ Cốc</button>
+      <button class="f-pill" data-cat="tuoi">Tươi</button>
+      <button class="f-pill" data-cat="tra">Trà</button>
     </div>
 
     <div class="prods-toolbar">
@@ -286,7 +289,7 @@
           <li><span class="ck">✓</span> Hotline hỗ trợ ưu tiên 24/7</li>
           <li><span class="ck">✓</span> Hủy bất cứ lúc nào</li>
         </ul>
-        <button class="sub-btn t3" data-tier="t3">👑 Đăng Ký Gói Vàng</button>
+        <button class="sub-btn t3" data-tier="t3">Đăng Ký Gói Vàng</button>
       </div>
     </div>
   </div>
@@ -349,7 +352,7 @@
     </div>
     <form class="nl-form">
       <input class="nl-input" type="email" placeholder="Nhập email của bạn…"/>
-      <button type="submit" class="btn btn-secondary btn-lg">🎁 Nhận Voucher Ngay</button>
+      <button type="submit" class="btn btn-secondary btn-lg">Nhận Voucher Ngay</button>
     </form>
   </div>
 </section>
@@ -375,21 +378,21 @@
     <div class="f-col">
       <h4>Sản Phẩm</h4>
       <ul>
-        <li><a href="#products">Trái Cây Sấy Dẻo</a></li>
-        <li><a href="#products">Trái Cây Sấy Giòn</a></li>
-        <li><a href="#products">Hạt Dinh Dưỡng</a></li>
-        <li><a href="#products">Trái Cây Tươi</a></li>
-        <li><a href="#subscriptions">Gói Subscription</a></li>
+        <li><a href="/pages/products">Trái Cây Sấy Dẻo</a></li>
+        <li><a href="/pages/products">Trái Cây Sấy Giòn</a></li>
+        <li><a href="/pages/products">Hạt Dinh Dưỡng</a></li>
+        <li><a href="/pages/products">Trái Cây Tươi</a></li>
+        <li><a href="/pages/subscriptions">Gói Subscription</a></li>
       </ul>
     </div>
     <div class="f-col">
       <h4>Hỗ Trợ</h4>
       <ul>
-        <li><a href="pages/about.html">Về Chúng Tôi</a></li>
-        <li><a href="pages/contact.html">Liên Hệ</a></li>
-        <li><a href="#">Chính Sách Đổi Trả</a></li>
-        <li><a href="#">Tra Cứu Đơn Hàng</a></li>
-        <li><a href="pages/admin/">Admin Dashboard</a></li>
+        <li><a href="/pages/about">Về Chúng Tôi</a></li>
+        <li><a href="/pages/contact">Liên Hệ</a></li>
+        <li><a href="/pages/returns">Chính Sách Đổi Trả</a></li>
+        <li><a href="/pages/tracking">Tra Cứu Đơn Hàng</a></li>
+        <li><a href="/admin">Admin Dashboard</a></li>
       </ul>
     </div>
     <div class="f-col">
@@ -472,7 +475,7 @@
 <!-- Orders Drawer (Bước 2 – Lịch sử đơn hàng) -->
 <div class="orders-drw">
   <div class="drw-head">
-    <span class="drw-title">📦 Đơn Hàng Của Tôi</span>
+    <span class="drw-title">Đơn Hàng Của Tôi</span>
     <button class="drw-close">✕</button>
   </div>
   <div class="orders-body"></div>

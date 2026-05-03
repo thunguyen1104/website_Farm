@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+  <title>Theo Dõi Đơn Hàng – NaFarm</title>
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🌿</text></svg>"/>
+  <link rel="stylesheet" href="/css/style.css"/>
+</head>
+<body>
+
+<nav class="nav scrolled">
+  <div class="nav-inner">
+    <a href="/" class="logo">
+      <div class="logo-mark">🌿</div>
+      <div class="logo-text"><span class="brand">NaFarm</span><span class="tagline">Từ Nông Trại Đến Bàn Ăn</span></div>
+    </a>
+    <ul class="nav-links">
+      <li><a href="/">Trang Chủ</a></li>
+      <li><a href="/#products">Sản Phẩm</a></li>
+      <li><a href="/pages/contact">Liên Hệ</a></li>
+    </ul>
+  </div>
+</nav>
+
+<div class="tracking-wrap">
+  <div style="margin-bottom:28px">
+    <h1 style="font-family:var(--font-display);font-size:1.8rem;color:var(--text-primary);margin-bottom:6px">📍 Theo Dõi Đơn Hàng</h1>
+    <p style="color:var(--text-muted);font-size:.9rem">Nhập mã đơn hàng hoặc xem trực tiếp đơn đã đặt</p>
+  </div>
+
+  <!-- Search bar -->
+  <div class="track-search-bar">
+    <input type="text" id="track-input" placeholder="Nhập mã đơn hàng VD: #NF-2025-001"/>
+    <button id="btn-track">🔍 Tra Cứu</button>
+  </div>
+
+  <!-- Order not found -->
+  <div id="not-found" style="display:none;text-align:center;padding:60px 0">
+    <div style="font-size:3rem;margin-bottom:12px">😢</div>
+    <h3 style="font-family:var(--font-display);color:var(--text-primary);margin-bottom:8px">Không tìm thấy đơn hàng</h3>
+    <p style="color:var(--text-muted);font-size:.9rem">Vui lòng kiểm tra lại mã đơn hàng hoặc liên hệ <strong>1800-NaFarm</strong> để được hỗ trợ.</p>
+    <a href="/" class="btn btn-primary" style="display:inline-block;margin-top:20px">🛍️ Tiếp Tục Mua Sắm</a>
+  </div>
+
+  <!-- Result -->
+  <div id="track-result" style="display:none">
+    <!-- Header card -->
+    <div class="tracking-card">
+      <div class="track-header">
+        <div>
+          <div style="font-size:.78rem;color:var(--text-muted);text-transform:uppercase;letter-spacing:1px;margin-bottom:4px">Mã Đơn Hàng</div>
+          <div class="track-order-id" id="tr-id">#NF-2025-001</div>
+          <div style="font-size:.82rem;color:var(--text-muted);margin-top:4px" id="tr-date">Đặt ngày 15/04/2025</div>
+        </div>
+        <span class="track-status-badge" id="tr-badge">✅ Đã giao</span>
+      </div>
+
+      <!-- Progress bar -->
+      <div id="tr-progress" style="margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;font-size:.72rem;font-weight:700;color:var(--text-muted)">
+          <span>Đã đặt</span><span>Xác nhận</span><span>Đóng gói</span><span>Vận chuyển</span><span>Đã giao</span>
+        </div>
+        <div style="position:relative;height:8px;background:var(--border);border-radius:99px;overflow:visible">
+          <div id="tr-progress-bar" style="height:100%;background:var(--primary);border-radius:99px;transition:width .8s ease"></div>
+        </div>
+      </div>
+
+      <!-- Timeline -->
+      <div class="timeline" id="tr-timeline"></div>
+    </div>
+
+    <!-- Info grid -->
+    <div class="track-info-grid" style="margin-bottom:20px">
+      <div class="track-info-box">
+        <h4>📦 Thông Tin Đơn Hàng</h4>
+        <p id="tr-items" style="font-size:.84rem;line-height:1.7"></p>
+        <p style="font-size:.9rem;font-weight:800;color:var(--primary);margin-top:8px" id="tr-total"></p>
+        <p style="font-size:.8rem;color:var(--text-muted);margin-top:4px" id="tr-payment"></p>
+      </div>
+      <div class="track-info-box">
+        <h4>📍 Địa Chỉ Giao Hàng</h4>
+        <p id="tr-addr" style="font-size:.85rem;line-height:1.7"></p>
+        <p id="tr-phone" style="font-size:.84rem;color:var(--text-muted);margin-top:4px"></p>
+      </div>
+    </div>
+
+    <!-- Shipper info (nếu đang giao) -->
+    <div id="shipper-section" style="display:none;margin-bottom:20px">
+      <div class="tracking-card" style="padding:20px">
+        <div style="font-weight:800;margin-bottom:14px">🛵 Thông Tin Tài Xế</div>
+        <div class="shipper-card">
+          <div class="shipper-avatar">🧑‍🤝‍🧑</div>
+          <div>
+            <div class="shipper-name" id="shipper-name">Nguyễn Thành Tâm</div>
+            <div class="shipper-phone" id="shipper-phone">📞 0987 654 321</div>
+            <div style="font-size:.72rem;color:var(--text-muted);margin-top:2px">🏍️ 51B-999.88</div>
+          </div>
+          <button class="shipper-call" onclick="toast('📞 Đang kết nối với tài xế...')">Gọi Ngay</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Map placeholder -->
+    <div class="tracking-card" style="padding:20px;margin-bottom:20px">
+      <div style="font-weight:800;margin-bottom:14px">🗺️ Vị Trí Đơn Hàng</div>
+      <div class="map-box">
+        <div class="map-emoji">📦</div>
+        <p id="map-status-text">Đơn hàng đang được xử lý tại kho NaFarm</p>
+        <div style="margin-top:12px;font-size:.78rem;color:var(--text-muted)">📍 Kho NaFarm – 12 Nguyễn Văn Cừ, Q.5, TP.HCM</div>
+      </div>
+    </div>
+
+    <!-- Actions -->
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:40px">
+      <a href="/" class="btn btn-primary">🛍️ Tiếp Tục Mua Sắm</a>
+      <button class="btn btn-ghost" id="btn-reorder">🔄 Mua Lại</button>
+      <button class="btn btn-ghost" id="btn-cancel-track" style="color:var(--danger)">Hủy Đơn</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast-tray"></div>
+<script>
+(function(){
+  'use strict';
+  function loadLS(k,d){try{const v=localStorage.getItem('nf_'+k);return v?JSON.parse(v):d;}catch(e){return d;}}
+  function saveLS(k,v){try{localStorage.setItem('nf_'+k,JSON.stringify(v));}catch(e){}}
+  const vnd=n=>n.toLocaleString('vi-VN')+'đ';
+  function toast(msg,type=''){const tray=document.querySelector('.toast-tray');if(!tray)return;const el=document.createElement('div');el.className='toast'+(type?' '+type:'');el.textContent=msg;tray.appendChild(el);setTimeout(()=>el.style.opacity='0',2900);setTimeout(()=>el.remove(),3300);}
+  window.toast=toast;
+
+  const TIMELINE_STEPS = {
+    processing: [
+      {s:'done',   icon:'✅', title:'Đặt hàng thành công',       desc:'NaFarm đã nhận đơn của bạn',              time:null},
+      {s:'active', icon:'📋', title:'Đang xác nhận đơn hàng',    desc:'Nhân viên đang kiểm tra và xác nhận',      time:null},
+      {s:'todo',   icon:'📦', title:'Đóng gói sản phẩm',         desc:'Chưa bắt đầu',                            time:null},
+      {s:'todo',   icon:'🚚', title:'Bàn giao cho đơn vị vận chuyển', desc:'Chưa bắt đầu',                       time:null},
+      {s:'todo',   icon:'🏠', title:'Giao hàng thành công',      desc:'Chưa bắt đầu',                            time:null},
+    ],
+    confirmed: [
+      {s:'done',   icon:'✅', title:'Đặt hàng thành công',       desc:'NaFarm đã nhận đơn của bạn',              time:'Hôm nay, 09:00'},
+      {s:'done',   icon:'📋', title:'Đã xác nhận đơn hàng',      desc:'Đơn hàng đã được xác nhận và chuẩn bị',   time:'Hôm nay, 09:35'},
+      {s:'active', icon:'📦', title:'Đang đóng gói sản phẩm',    desc:'Nhân viên kho đang đóng gói',             time:null},
+      {s:'todo',   icon:'🚚', title:'Bàn giao cho đơn vị vận chuyển', desc:'Chưa bắt đầu',                       time:null},
+      {s:'todo',   icon:'🏠', title:'Giao hàng thành công',      desc:'Chưa bắt đầu',                            time:null},
+    ],
+    shipped: [
+      {s:'done',   icon:'✅', title:'Đặt hàng thành công',       desc:'NaFarm đã nhận đơn của bạn',              time:'Hôm qua, 14:20'},
+      {s:'done',   icon:'📋', title:'Đã xác nhận đơn hàng',      desc:'Đơn hàng đã được xác nhận',               time:'Hôm qua, 14:55'},
+      {s:'done',   icon:'📦', title:'Đã đóng gói xong',          desc:'Sản phẩm được đóng gói an toàn',           time:'Hôm qua, 16:30'},
+      {s:'active', icon:'🚚', title:'Đang trên đường giao',      desc:'Tài xế đang giao đến địa chỉ của bạn',    time:'Hôm nay, 08:15'},
+      {s:'todo',   icon:'🏠', title:'Giao hàng thành công',      desc:'Chưa hoàn thành',                         time:null},
+    ],
+    done: [
+      {s:'done',   icon:'✅', title:'Đặt hàng thành công',       desc:'NaFarm đã nhận đơn của bạn',              time:'03/05/2025, 10:00'},
+      {s:'done',   icon:'📋', title:'Đã xác nhận đơn hàng',      desc:'Đơn hàng đã được xác nhận',               time:'03/05/2025, 10:30'},
+      {s:'done',   icon:'📦', title:'Đã đóng gói xong',          desc:'Sản phẩm được đóng gói an toàn',           time:'03/05/2025, 14:00'},
+      {s:'done',   icon:'🚚', title:'Đã bàn giao vận chuyển',    desc:'Giao cho GHN Express',                    time:'04/05/2025, 08:00'},
+      {s:'done',   icon:'🏠', title:'Giao hàng thành công 🎉',   desc:'Người nhận đã nhận hàng thành công',       time:'04/05/2025, 11:45'},
+    ],
+    cancelled: [
+      {s:'done',   icon:'✅', title:'Đặt hàng thành công',       desc:'NaFarm đã nhận đơn của bạn',              time:null},
+      {s:'done',   icon:'❌', title:'Đơn hàng đã bị hủy',        desc:'Đơn hàng đã được hủy theo yêu cầu',       time:null},
+    ],
+  };
+
+  const PROGRESS = {processing:20, confirmed:40, shipped:75, done:100, cancelled:0};
+  const STATUS_LABEL = {processing:'⏳ Đang xử lý',confirmed:'📋 Đã xác nhận',shipped:'🚚 Đang giao',done:'✅ Đã giao',cancelled:'❌ Đã hủy'};
+  const STATUS_CLS   = {processing:'proc',confirmed:'proc',shipped:'ship',done:'done',cancelled:'cancel'};
+
+  let currentOrder = null;
+
+  function showOrder(o) {
+    currentOrder = o;
+    document.getElementById('not-found').style.display='none';
+    document.getElementById('track-result').style.display='block';
+    document.getElementById('tr-id').textContent = o.id;
+    document.getElementById('tr-date').textContent = 'Đặt ngày ' + o.date;
+    const badge = document.getElementById('tr-badge');
+    badge.textContent = STATUS_LABEL[o.status] || o.status;
+    badge.className = 'track-status-badge ' + (STATUS_CLS[o.status]||'proc');
+    document.getElementById('tr-progress-bar').style.width = (PROGRESS[o.status]||0) + '%';
+    // Timeline
+    const steps = TIMELINE_STEPS[o.status] || TIMELINE_STEPS.processing;
+    document.getElementById('tr-timeline').innerHTML = steps.map(st=>`
+      <div class="tl-item">
+        <div class="tl-dot ${st.s}">${st.icon}</div>
+        <div class="tl-content">
+          <div class="tl-title ${st.s==='todo'?'muted':''}">${st.title}</div>
+          <div class="tl-desc">${st.desc}</div>
+          ${st.time?`<div class="tl-time">🕐 ${st.time}</div>`:''}
+        </div>
+      </div>`).join('');
+    // Info
+    document.getElementById('tr-items').textContent = o.items;
+    document.getElementById('tr-total').textContent = 'Tổng: ' + vnd(o.total);
+    document.getElementById('tr-payment').textContent = '💳 Thanh toán: ' + (o.payment||'COD');
+    document.getElementById('tr-addr').textContent = o.addr || 'Không có thông tin';
+    document.getElementById('tr-phone').textContent = o.phone ? '📞 ' + o.phone : '';
+    // Shipper
+    const shipSec = document.getElementById('shipper-section');
+    shipSec.style.display = o.status==='shipped' ? 'block' : 'none';
+    // Map text
+    const mapTexts = {
+      processing:'Đơn hàng đang được xử lý tại kho NaFarm',
+      confirmed: 'Đơn hàng đã xác nhận, đang chuẩn bị đóng gói',
+      shipped:   'Tài xế đang trên đường giao đến bạn 🛵',
+      done:      'Đơn hàng đã giao thành công ✅',
+      cancelled: 'Đơn hàng đã được hủy',
+    };
+    document.getElementById('map-status-text').textContent = mapTexts[o.status]||'';
+    // Cancel btn
+    const cancelBtn = document.getElementById('btn-cancel-track');
+    cancelBtn.style.display = o.status==='processing' ? 'inline-flex' : 'none';
+  }
+
+  function findOrder(id) {
+    const orders = loadLS('orders', []);
+    return orders.find(o => o.id.toLowerCase() === id.toLowerCase().trim()) || null;
+  }
+
+  function doTrack(id) {
+    if(!id){ toast('⚠️ Nhập mã đơn hàng','warn'); return; }
+    const o = findOrder(id);
+    if(!o){
+      document.getElementById('track-result').style.display='none';
+      document.getElementById('not-found').style.display='block';
+    } else {
+      showOrder(o);
+    }
+  }
+
+  document.getElementById('btn-track').addEventListener('click',()=>{
+    doTrack(document.getElementById('track-input').value.trim());
+  });
+  document.getElementById('track-input').addEventListener('keydown',e=>{
+    if(e.key==='Enter') doTrack(document.getElementById('track-input').value.trim());
+  });
+
+  document.getElementById('btn-cancel-track').addEventListener('click',()=>{
+    if(!currentOrder) return;
+    if(!confirm('Bạn có chắc muốn hủy đơn ' + currentOrder.id + '?')) return;
+    const orders = loadLS('orders',[]);
+    const o = orders.find(x=>x.id===currentOrder.id);
+    if(o){ o.status='cancelled'; saveLS('orders',orders); showOrder(o); toast('✅ Đã hủy đơn hàng '+o.id); }
+  });
+
+  document.getElementById('btn-reorder').addEventListener('click',()=>{
+    toast('🛍️ Chuyển về trang sản phẩm để đặt lại!');
+    setTimeout(()=>window.location.href='/#products',1200);
+  });
+
+  // Auto-load from URL or localStorage
+  const params = new URLSearchParams(window.location.search);
+  const urlId  = params.get('id');
+  if(urlId){
+    document.getElementById('track-input').value = urlId;
+    doTrack(urlId);
+  }
+})();
+</script>
+</body>
+</html>
