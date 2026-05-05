@@ -10,6 +10,23 @@ const $ = s => document.querySelector(s);
 const $$ = s => [...document.querySelectorAll(s)];
 const vnd = n => n.toLocaleString('vi-VN') + 'đ';
 
+// LocalStorage helpers
+const loadLS = (key, defaultVal) => {
+  try {
+    const val = localStorage.getItem('nf_' + key);
+    return val ? JSON.parse(val) : defaultVal;
+  } catch (e) {
+    return defaultVal;
+  }
+};
+const saveLS = (key, val) => {
+  try {
+    localStorage.setItem('nf_' + key, JSON.stringify(val));
+  } catch (e) {
+    console.error('saveLS error:', e);
+  }
+};
+
 function toast(msg, type = '') {
   const tray = $('.toast-tray');
   if (!tray) return;
@@ -75,39 +92,49 @@ function renderProductGrid(products) {
   if (!grid) return;
   if (count) count.textContent = `${products.length} sản phẩm`;
 
-  grid.innerHTML = products.map(p => `
-    <div class="p-card reveal" data-id="${p._id}">
-      <div class="p-card-img">
-        <div class="p-emoji">${p.emoji || '🍃'}</div>
-        <div class="p-badges">${(p.badges || []).map(b => `<span class="p-badge ${b}">${b === 'sale' ? 'Giảm' : b === 'new' ? 'Mới' : b === 'organic' ? 'Organic' : 'Hot'}</span>`).join('')}</div>
-        <button class="p-wish" data-id="${p._id}">🤍</button>
-        <div class="p-qr-hint">📱 QR Nguồn Gốc</div>
-      </div>
-      <div class="p-info">
-        <div class="p-origin">📍 ${p.origin || 'Việt Nam'}</div>
-        <h3 class="p-name">${p.name}</h3>
-        <div class="p-stars">
-          <span class="stars">${'★'.repeat(Math.floor(p.rating || 0))}${'☆'.repeat(5 - Math.floor(p.rating || 0))}</span>
-          <span class="rn">${p.rating || 0}</span>
-          <span class="rc">(${p.reviewsCount || 0})</span>
-        </div>
-        <p class="p-desc">${p.description || ''}</p>
-        <div class="p-foot">
-          <div>
-            ${p.oldPrice ? `<span class="p-price-old">${vnd(p.oldPrice)}</span>` : ''}
-            <span class="p-price">${vnd(p.price)}</span>
+  grid.innerHTML = products.map(p => {
+    const stockStatus = p.stock > 20 ? 'còn' : p.stock > 0 ? 'ít' : 'hết';
+    const isOutOfStock = p.stock <= 0;
+    return `
+      <div class="p-card reveal" data-id="${p._id}">
+        <div class="p-card-img">
+          <div class="p-emoji">${p.emoji || '🍃'}</div>
+          <div class="p-badges">
+            ${(p.badges || []).map(b => `<span class="p-badge ${b}">${b === 'sale' ? 'Giảm' : b === 'new' ? 'Mới' : b === 'organic' ? 'Organic' : 'Hot'}</span>`).join('')}
+            ${isOutOfStock ? '<span class="p-badge out-stock">Hết</span>' : stockStatus === 'ít' ? '<span class="p-badge low-stock">Sắp hết</span>' : ''}
           </div>
-          <button class="btn-cart-sm" data-id="${p._id}">+ Thêm</button>
+          <button class="p-wish" data-id="${p._id}">🤍</button>
+          <div class="p-qr-hint">📱 QR Nguồn Gốc</div>
+          ${isOutOfStock ? '<div style="position:absolute;inset:0;background:rgba(0,0,0,.4);border-radius:10px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:800">HẾT HÀNG</div>' : ''}
         </div>
-      </div>
-    </div>`).join('');
+        <div class="p-info">
+          <div class="p-origin">📍 ${p.origin || 'Việt Nam'}</div>
+          <h3 class="p-name">${p.name}</h3>
+          <div class="p-stars">
+            <span class="stars">${'★'.repeat(Math.floor(p.rating || 0))}${'☆'.repeat(5 - Math.floor(p.rating || 0))}</span>
+            <span class="rn">${p.rating || 0}</span>
+            <span class="rc">(${p.reviewsCount || 0})</span>
+          </div>
+          <p class="p-desc">${p.description || ''}</p>
+          <div class="p-foot">
+            <div>
+              ${p.oldPrice ? `<span class="p-price-old">${vnd(p.oldPrice)}</span>` : ''}
+              <span class="p-price">${vnd(p.price)}</span>
+            </div>
+            <button class="btn-cart-sm" data-id="${p._id}" ${isOutOfStock ? 'disabled style="opacity:.5;cursor:not-allowed"' : ''}>
+              ${isOutOfStock ? '❌ Hết' : '+ Thêm'}
+            </button>
+          </div>
+        </div>
+      </div>`;
+  }).join('');
 
   // Gắn sự kiện
   $$('.p-card').forEach(c => c.addEventListener('click', e => {
     if (e.target.closest('.btn-cart-sm') || e.target.closest('.p-wish')) return;
     openModal(c.dataset.id);
   }));
-  $$('.btn-cart-sm').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); addToCart(b.dataset.id, 1); }));
+  $$('.btn-cart-sm:not([disabled])').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); addToCart(b.dataset.id, 1); }));
   $$('.p-wish').forEach(b => b.addEventListener('click', e => { e.stopPropagation(); toggleWish(b.dataset.id, b); }));
   observeReveal();
 }
@@ -118,20 +145,40 @@ async function toggleWish(id, btn) {
 }
 
 /* ── Cart (client-side + API khi checkout) ───────────────── */
-let cart = []; // Lưu giỏ hàng local
+let cart = loadLS('cart', []); // Load từ localStorage
 
 function addToCart(id, qty = 1) {
   const product = currentProducts.find(p => p._id === id);
   if (!product) return;
+  
+  // Check stock
+  if (product.stock <= 0) {
+    toast('❌ Sản phẩm này đã hết hàng', 'error');
+    return;
+  }
+  if (product.stock < qty) {
+    toast(`⚠️ Chỉ còn ${product.stock} sản phẩm`, 'warn');
+    return;
+  }
+  
   const existing = cart.find(i => i._id === id);
-  if (existing) existing.qty += qty;
-  else cart.push({ ...product, qty });
+  if (existing) {
+    if (existing.qty + qty > product.stock) {
+      toast(`⚠️ Chỉ còn ${product.stock} sản phẩm`, 'warn');
+      return;
+    }
+    existing.qty += qty;
+  } else {
+    cart.push({ ...product, qty });
+  }
+  saveLS('cart', cart);
   renderCartDrawer();
   toast(`✅ Đã thêm ${qty > 1 ? qty + '× ' : ''}"${product.name}"`);
 }
 
 function removeCartItem(id) {
   cart = cart.filter(i => i._id !== id);
+  saveLS('cart', cart); // Save to localStorage
   renderCartDrawer();
 }
 
@@ -140,7 +187,10 @@ function updateCartQty(id, delta) {
   if (item) {
     item.qty += delta;
     if (item.qty <= 0) removeCartItem(id);
-    else renderCartDrawer();
+    else {
+      saveLS('cart', cart); // Save to localStorage
+      renderCartDrawer();
+    }
   }
 }
 
@@ -204,34 +254,17 @@ async function checkout() {
     toast('Giỏ hàng trống', 'warn');
     return;
   }
-  const items = cart.map(i => ({
-    productId: i._id,
-    name: i.name,
-    price: i.price,
-    qty: i.qty,
-    emoji: i.emoji
-  }));
-  const sub = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const shippingFee = sub >= 300000 ? 0 : 30000;
-  const total = sub + shippingFee;
-  try {
-    const res = await fetch('/api/orders', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ items, total, shippingFee, address: 'Địa chỉ mặc định', paymentMethod: 'COD' })
-    });
-    const data = await res.json();
-    if (data.success) {
-      toast('🎉 Đặt hàng thành công!');
-      cart = [];
-      renderCartDrawer();
-      closeCart();
-    } else {
-      toast('Lỗi đặt hàng', 'error');
-    }
-  } catch (err) {
-    toast('Lỗi kết nối', 'error');
-  }
+  
+  // Save cart to localStorage for checkout page
+  saveLS('cart', cart);
+  saveLS('user', user);
+  
+  toast('🎉 Đang chuyển sang trang thanh toán...');
+  renderCartDrawer();
+  closeCart();
+  
+  // Redirect to checkout page
+  setTimeout(() => { window.location.href = '/pages/checkout'; }, 800);
 }
 
 /* ── Orders History ─────────────────────────────────────── */
@@ -393,6 +426,25 @@ async function logout() {
 function initAuth() {
   $$('[data-open-auth]').forEach(el => el.addEventListener('click', openAuth));
   $('.auth-overlay')?.addEventListener('click', e => { if (e.target === $('.auth-overlay')) closeAuth(); });
+  
+  // User dropdown toggle
+  const userWrap = $('.user-wrap');
+  if (userWrap) {
+    const userBtn = userWrap.querySelector('.icon-btn');
+    const userDrop = userWrap.querySelector('.user-drop');
+    if (userBtn && userDrop) {
+      userBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        userDrop.classList.toggle('open');
+      });
+      document.addEventListener('click', (e) => {
+        if (!userWrap.contains(e.target)) {
+          userDrop.classList.remove('open');
+        }
+      });
+    }
+  }
+  
   $$('.a-tab').forEach(t => t.addEventListener('click', () => {
     $$('.a-tab').forEach(x => x.classList.remove('on'));
     $$('.a-pane').forEach(x => x.classList.remove('on'));
@@ -430,11 +482,13 @@ function initCartDrawer() {
   $('.drw-overlay')?.addEventListener('click', () => {
     $('.cart-drw')?.classList.remove('on');
     $('.orders-drw')?.classList.remove('on');
+    $('.drw-overlay')?.classList.remove('on');
     document.body.style.overflow = '';
   });
   $$('.drw-close').forEach(b => b.addEventListener('click', () => {
     $('.cart-drw')?.classList.remove('on');
     $('.orders-drw')?.classList.remove('on');
+    $('.drw-overlay')?.classList.remove('on');
     document.body.style.overflow = '';
   }));
 }
@@ -505,6 +559,12 @@ function observeReveal() {
 
 /* ── Init ────────────────────────────────────────────────── */
 window.addEventListener('DOMContentLoaded', async () => {
+  // Reset scroll lock and close all modals on page load
+  document.body.style.overflow = '';
+  $$('.overlay, .drw-overlay, .auth-overlay, .p-modal, .cart-drw, .orders-drw').forEach(el => {
+    el?.classList.remove('on');
+  });
+  
   initAuth();
   initCartDrawer();
   initSearch();

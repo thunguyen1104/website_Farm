@@ -279,6 +279,21 @@
   </div>
 </div>
 
+<!-- Category Modal -->
+<div class="modal-overlay" id="cat-modal">
+  <div class="modal-box" style="max-width:500px">
+    <h3 id="cat-modal-title">🎯 Thêm Danh Mục Mới</h3>
+    <div class="form-group"><label>Tên Danh Mục *</label><input id="cf-name" placeholder="VD: Trái Cây Sấy Dẻo"/></div>
+    <div class="form-group"><label>Emoji Đại Diện *</label><input id="cf-emoji" placeholder="🥭" style="font-size:1.2rem;text-align:center" maxlength="2"/></div>
+    <div class="form-group"><label>Slug (ID) *</label><input id="cf-slug" placeholder="say-deo" readonly style="background:var(--gray-100)"/></div>
+    <div class="form-group"><label>Mô Tả *</label><textarea id="cf-desc" rows="3" placeholder="Mô tả ngắn về danh mục..."></textarea></div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeCatModal()">Hủy</button>
+      <button class="btn btn-primary" id="btn-save-category">💾 Lưu Danh Mục</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast-tray"></div>
 
 <script>
@@ -314,7 +329,7 @@ const CATEGORIES=[
 // State
 let products = loadLS('admin_products', PRODUCTS_BASE);
 let orders   = loadLS('orders', []);
-let editProdId = null, editOrderId = null;
+let editProdId = null, editOrderId = null, editCatId = null;
 let orderFilter = 'all';
 
 // Update badge counts
@@ -563,7 +578,12 @@ function renderCategories(){
       </div>
     </div>`;}).join('');
 }
-document.getElementById('btn-add-cat').addEventListener('click',()=>toast('💡 Chức năng thêm danh mục đang phát triển'));
+document.getElementById('btn-add-cat').addEventListener('click',()=>{
+  editCatId=null;
+  document.getElementById('cat-modal-title').textContent='🎯 Thêm Danh Mục Mới';
+  ['cf-name','cf-emoji','cf-slug','cf-desc'].forEach(id=>document.getElementById(id).value='');
+  document.getElementById('cat-modal').classList.add('on');
+});
 
 // ── CUSTOMERS ─────────────────────────────────────────
 function renderCustomers(){
@@ -618,6 +638,30 @@ function renderAnalytics(){
 // Close modals on overlay click
 document.getElementById('prod-modal').addEventListener('click',e=>{if(e.target===document.getElementById('prod-modal'))closeProdModal();});
 document.getElementById('order-modal').addEventListener('click',e=>{if(e.target===document.getElementById('order-modal'))closeOrderModal();});
+document.getElementById('cat-modal').addEventListener('click',e=>{if(e.target===document.getElementById('cat-modal'))closeCatModal();});
+
+// Category modal functions
+window.closeCatModal=function(){document.getElementById('cat-modal').classList.remove('on');};
+document.getElementById('cf-name').addEventListener('input',e=>{
+  const slug=e.target.value.trim().toLowerCase().replace(/\s+/g,'-').replace(/[^\w-]/g,'');
+  document.getElementById('cf-slug').value=slug;
+});
+document.getElementById('btn-save-category').addEventListener('click',()=>{
+  const name=document.getElementById('cf-name').value.trim();
+  const emoji=document.getElementById('cf-emoji').value.trim();
+  const slug=document.getElementById('cf-slug').value.trim();
+  const desc=document.getElementById('cf-desc').value.trim();
+  if(!name||!emoji||!slug||!desc){toast('⚠️ Điền đủ thông tin bắt buộc','warn');return;}
+  if(CATEGORIES.find(c=>c.id===slug)&&!editCatId){toast('⚠️ Slug này đã tồn tại','warn');return;}
+  const newCat={id:slug,name,e:emoji,desc};
+  if(editCatId){
+    const idx=CATEGORIES.findIndex(c=>c.id===editCatId);
+    if(idx>=0){CATEGORIES[idx]=newCat;toast('✅ Đã cập nhật danh mục');}
+  } else {
+    CATEGORIES.push(newCat);toast('✅ Đã thêm danh mục mới');
+  }
+  closeCatModal();renderCategories();
+});
 
 // Init
 document.getElementById('today-date').textContent=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});

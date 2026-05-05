@@ -59,4 +59,21 @@ router.post('/:id/reviews', require('../middleware/auth'), async (req, res) => {
   }
 });
 
+// Giảm stock sản phẩm khi đặt hàng (admin hoặc system)
+router.put('/:id/stock', async (req, res) => {
+  try {
+    const { quantity } = req.body;
+    const product = await Product.findById(req.params.id);
+    if (!product) return res.status(404).json({ error: 'Sản phẩm không tồn tại' });
+    if (product.stock < quantity) {
+      return res.status(400).json({ error: 'Không đủ hàng', stock: product.stock });
+    }
+    product.stock -= quantity;
+    await product.save();
+    res.json({ success: true, stock: product.stock });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
+  }
+});
+
 module.exports = router;

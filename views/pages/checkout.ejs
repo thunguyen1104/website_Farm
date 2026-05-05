@@ -295,7 +295,7 @@
 
   // Place order
   let lastOrderId='';
-  document.getElementById('btn-place-order').addEventListener('click',()=>{
+  document.getElementById('btn-place-order').addEventListener('click',async()=>{
     const name=document.getElementById('ck-name').value.trim();
     const phone=document.getElementById('ck-phone').value.trim();
     const city=document.getElementById('ck-city').value;
@@ -308,6 +308,26 @@
     if(!city){toast('⚠️ Chọn tỉnh/thành phố','warn');return;}
     if(!district){toast('⚠️ Nhập quận/huyện','warn');return;}
     if(!addr){toast('⚠️ Nhập địa chỉ cụ thể','warn');return;}
+    
+    // Deduct stock for each item
+    try {
+      for(const item of cart){
+        const res=await fetch(`/api/products/${item._id}/stock`,{
+          method:'PUT',
+          headers:{'Content-Type':'application/json'},
+          body:JSON.stringify({quantity:item.qty})
+        });
+        const data=await res.json();
+        if(!data.success){
+          toast(`❌ ${item.name} - ${data.error}`,'error');
+          return;
+        }
+      }
+    } catch(err){
+      toast('❌ Lỗi cập nhật kho hàng','error');
+      return;
+    }
+    
     const fullAddr=`${addr}, ${district}, ${city}`;
     const orderId='#NF-'+Date.now().toString().slice(-8);
     lastOrderId=orderId;
