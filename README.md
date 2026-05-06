@@ -111,7 +111,7 @@ MK: 123456
 ## 👥 Nhóm phát triển
 
 * Bùi Hương Giang
-* Nguyễn Thị Anh Thư
+* Nguyễn Ngọc Anh Thư
 * Phạm Thị Thùy An
 * Nguyễn Hoàng Ánh Thi
 
