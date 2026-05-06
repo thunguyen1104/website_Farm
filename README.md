@@ -216,10 +216,10 @@ npm run seed
 
 ## 👥 Nhóm phát triển
 
-* Bùi Hương Giang
-* Nguyễn Thị Anh Thư
-* Phạm Thị Thùy An
-* Nguyễn Hoàng Ánh Thi
+* Bùi Hương Giang - 52300193
+* Nguyễn Ngọc Anh Thư - 52300161
+* Phạm Thị Thùy An - 52300173
+* Nguyễn Hoàng Ánh Thi - 52300157
 
 ---
 
