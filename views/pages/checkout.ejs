@@ -247,7 +247,7 @@
   };
   document.getElementById('oc-items').innerHTML=cart.map(item=>`
     <div class="oc-item">
-      <div class="oc-emoji">${item.e}<span class="oc-badge">${item.qty}</span></div>
+      <div class="oc-emoji">${item.emoji || '🍃'}<span class="oc-badge">${item.qty}</span></div>
       <div class="oc-name">${item.name}</div>
       <div class="oc-price">${vnd(item.price*item.qty)}</div>
     </div>`).join('');
