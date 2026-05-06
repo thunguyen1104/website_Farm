@@ -389,6 +389,9 @@ async function login(email, password) {
       toast(`👋 Chào ${data.user.name}`);
       updateUserUI(data.user);
       closeAuth();
+      if (data.user?.role === 'admin') {
+        window.location.href = '/admin';
+      }
     } else {
       toast(data.error || 'Sai thông tin', 'error');
     }
