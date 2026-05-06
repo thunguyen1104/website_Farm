@@ -102,10 +102,11 @@ npm start
 ```
 
 👉 http://localhost:3000
-### Tài khoản admi
-admin@nafarm.test
-123456
----
+### Tài khoản admin
+```bash
+TĐN: admin@nafarm.test
+MK: 123456
+```
 
 ## 👥 Nhóm phát triển
 
